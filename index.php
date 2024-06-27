@@ -1,5 +1,13 @@
 <?php
     require_once __DIR__ . "/partials/hotels.php";
+
+    $isThereParking = $_GET["parking"];
+    $filteredHotels = array_filter($hotels, function($hotel) use($isThereParking){
+        return $isThereParking == $hotel['parking'];
+    });
+    $hotels = $filteredHotels;
+    var_dump($filteredHotels);
+    
 ?>
 
 <!DOCTYPE html>
@@ -14,29 +22,54 @@
 <body>
 
 <div class="container">
-    <h1>HOTELS</h1>
-    <table class="table table-primary table-striped">
-        <thead>
-            <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Parking</th>
-            <th scope="col">Vote</th>
-            <th scope="col">Distance To Center</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($hotels as $key => $hotel) { ?>
-                <tr>    
-                <th scope="row"><?php echo $hotel['name'] ?></th>
-                <td><?php echo $hotel['description'] ?></td>
-                <td><?php echo $hotel['parking'] ? 'Yes' : 'No' ?></td>
-                <td><?php echo $hotel['vote'] ?></td>
-                <td><?php echo $hotel['distance_to_center'] ?></td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+    <div class="row d-flex justify-content-center">
+        <div class="col-4">
+            <h1 class="text-center">HOTELS</h1>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="row">
+        <div class="col-6">
+            <form action="./index.php" method="GET">
+                <label for="parking">Parcheggio:</label>
+                <select name="parking" id="parking">
+                    <option value="true">Sì</option>
+                    <option value="false">No</option>
+                </select>
+                <button>Avvia ricerca</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABELLA -->
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <table class="table table-primary table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Parking</th>
+                    <th scope="col">Vote</th>
+                    <th scope="col">Distance To Center</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($hotels as $key => $hotel) { ?>
+                        <tr>    
+                        <th scope="row"><?php echo $hotel['name'] ?></th>
+                        <td><?php echo $hotel['description'] ?></td>
+                        <td><?php echo $hotel['parking'] ? 'Yes' : 'No' ?></td>
+                        <td><?php echo $hotel['vote'] ?></td>
+                        <td><?php echo $hotel['distance_to_center'] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <!-- Bootstrap JS CDN -->
