@@ -1,12 +1,18 @@
 <?php
     require_once __DIR__ . "/partials/hotels.php";
 
-    $isThereParking = $_GET["parking"];
-    $filteredHotels = array_filter($hotels, function($hotel) use($isThereParking){
-        return $isThereParking == $hotel['parking'];
+if(isset($_GET["parking"])){
+    $filteredHotels = array_filter($hotels, function($hotel){
+        $isThereParking = true;
+        if($_GET["parking"]==="true"){
+            $isThereParking = true;
+        }else{
+            $isThereParking=false;
+        }
+        return $hotel["parking"]===$isThereParking;
     });
     $hotels = $filteredHotels;
-    var_dump($filteredHotels);
+}
     
 ?>
 
@@ -62,7 +68,7 @@
                         <td><?php echo $hotel['description'] ?></td>
                         <td><?php echo $hotel['parking'] ? 'Yes' : 'No' ?></td>
                         <td><?php echo $hotel['vote'] ?></td>
-                        <td><?php echo $hotel['distance_to_center'] ?></td>
+                        <td><?php echo $hotel['distance_to_center'].' km' ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
